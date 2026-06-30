@@ -1,0 +1,86 @@
+<!--
+2026-06-29, bspatz: cobble from Avare regions for Africa trip; self-contained 1-file
+
+https://github.com/alexurquhart/free-tiles
+-->
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style> * { font-family: arial; } *:focus { outline: none; } </style>
+
+<div style="background: lightgrey; padding: 10px; margin: 0px;"><b>June 2026 Africa
+   <a target="_blank" href="https://selfflysafari.com">Self-Fly Safari</a></b>.  <small>2000 nm, 20 hours.  Hover for details.</small></div>
+<div id="map" style="_height: 600px; height: 90%;"></div>
+<div style="display: none;"><div id="credit" class="leaflet-control-attribution">2026-06-29, bspatz</div></div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<!-- <link rel="stylesheet" href="/lib/Leaflet.zimmicz-Coordinates/Control.Coordinates.css" />
+<script src="/lib/Leaflet.zimmicz-Coordinates/Control.Coordinates.js"></script> -->
+
+<script>
+var fc = { "type": "FeatureCollection", "features": [
+   { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [[28.14, -25.986], [28.15, -25.93], [30.854, -24.95], [31.589, -24.962]] },
+      "properties": { "name": "Flight 1: Grand Central (FAGC) to Skukuza" } }
+  ,{ "type": "Feature", "geometry": { "type": "LineString", "coordinates": [[31.589, -24.962], [29.454, -23.860], [29.131, -22.192]] },
+      "properties": { "name": "Flight 2: Skukuza to Limpopo Valley (via Polokwane)" } }
+  ,{ "type": "Feature", "geometry": { "type": "LineString", "coordinates": [[29.131, -22.192], [27.469, -21.159], [22.869, -19.553]] },
+      "properties": { "name": "Flight 3: Limpopo Valley to Kanana (via Francistown)" } }
+  ,{ "type": "Feature", "geometry": { "type": "LineString", "coordinates": [[22.869, -19.553], [25.163, -17.831], [25.856, -17.925], [25.838, -18.098]] },
+      "properties": { "name": "Flight 4: Kanana to Victoria Falls (via Kasane)" } }
+  ,{ "type": "Feature", "geometry": { "type": "LineString", "coordinates": [[25.838, -18.098], [27.201, -19.127]] },
+      "properties": { "name": "Flight 5: Victoria Falls to Linkwasha" } }
+  ,{ "type": "Feature", "geometry": { "type": "LineString", "coordinates": [[27.201, -19.127], [28.625, -20.021], [29.454, -23.860], [28.081, -25.171], [28.116, -25.954], [28.14, -25.986]] },
+      "properties": { "name": "Flight 6: Linkwasha to Grand Central (via Bulawayo, Polokwane)" } }
+
+  ,{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [28.015, -26.026] }, "properties": { "name": "Pivot Hotel" } }
+  ,{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [31.542, -24.800] }, "properties": { "name": "Mala Mala Lodge" } }
+  ,{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [29.089, -22.117] }, "properties": { "name": "Mashatu Lodge" } }
+  ,{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [22.862, -19.543] }, "properties": { "name": "Kanana Lodge" } }
+  ,{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [25.843, -17.932] }, "properties": { "name": "Victoria Falls Hotel" } }
+  ,{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [27.251, -19.069] }, "properties": { "name": "Little Makalolo Lodge" } }
+] };
+
+var map = L.map("map");
+var credit = L.control({ position: "bottomleft" }); credit.onAdd = function() { return L.DomUtil.get("credit"); }; credit.addTo(map);
+
+var osm  = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                       { maxZoom: 18, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OSM</a>' }).addTo(map);
+var nav  = L.tileLayer("https://services.arcgisonline.com/arcgis/rest/services/Specialty/World_Navigation_Charts/MapServer/tile/{z}/{y}/{x}",
+                       { maxZoom: 10, attribution: 'ESRI' });
+var sat  = L.tileLayer("https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                       { maxZoom: 17, attribution: 'ESRI' } );
+var topo = L.tileLayer("http://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+                       { maxZoom: 17, attribution: 'ESRI' } );
+
+ var routes_layer = L.geoJSON(fc, {
+   onEachFeature: function(feature, layer) {
+      if (feature.geometry.type != 'Point') {
+         layer.setStyle({ color: "magenta", weight: 6.0, fill: null, outline: null }),
+         layer.on({
+            mouseover: function(e) { e.target.setStyle({ weight: 12.0, color: "blue" }); },
+            mouseout:  function(e) { e.target.setStyle({ weight: 6.0,  color: "magenta" }); }
+         });
+      }
+      layer.bindTooltip(feature.properties.name, { xdirection: "top", xpermanent: true } );
+   }
+}).addTo(map);
+map.fitBounds(routes_layer.getBounds());
+
+L.control.layers(
+   { "World Nav": nav, "OSM": osm, "Satellite": sat, "Topo": topo},
+   { "Routes": routes_layer },
+   { position: 'topright', collapsed: false }).addTo(map);
+L.control.scale().addTo(map);
+
+var _coord_opts = {
+   precision: 6,
+   prefixText: '<img id="coord" title="Click to copy to clipboard" src="/img/copy.svg"> ',
+   latitudeText: 'LAT=',
+   longitudeText: 'LONG='
+};
+var _coords = new L.Control.Coordinates(_coord_opts).addTo(map);
+map.on('click', function(e) { _coords.setCoordinates(e); }); 
+</script>
