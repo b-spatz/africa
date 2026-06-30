@@ -5,7 +5,11 @@ https://github.com/alexurquhart/free-tiles
 -->
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<style> * { font-family: arial; } *:focus { outline: none; } </style>
+<style>
+* { font-family: arial; }
+*:focus { outline: none; }
+.leaflet-control-layers, .leaflet-tooltip { font-size: 1.2rem; }
+</style>
 
 <div style="background: lightgrey; padding: 10px; margin: 0px;"><b>June 2026 Africa
    <a target="_blank" href="https://selfflysafari.com">Self-Fly Safari</a></b>.  <small>2000 nm, 20 hours.  Hover for details.</small></div>
@@ -16,9 +20,6 @@ https://github.com/alexurquhart/free-tiles
 <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
-
-<!-- <link rel="stylesheet" href="/lib/Leaflet.zimmicz-Coordinates/Control.Coordinates.css" />
-<script src="/lib/Leaflet.zimmicz-Coordinates/Control.Coordinates.js"></script> -->
 
 <script>
 var fc = { "type": "FeatureCollection", "features": [
@@ -74,13 +75,4 @@ L.control.layers(
    { "Routes": routes_layer },
    { position: 'topright', collapsed: false }).addTo(map);
 L.control.scale().addTo(map);
-
-var _coord_opts = {
-   precision: 6,
-   prefixText: '<img id="coord" title="Click to copy to clipboard" src="/img/copy.svg"> ',
-   latitudeText: 'LAT=',
-   longitudeText: 'LONG='
-};
-var _coords = new L.Control.Coordinates(_coord_opts).addTo(map);
-map.on('click', function(e) { _coords.setCoordinates(e); }); 
 </script>
