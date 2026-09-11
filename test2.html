@@ -52,11 +52,9 @@
          { "fn": "pics/IMG_5694_reduced.JPG" },
          { "fn": "pics/IMG_5695_reduced.JPG" },
         ];
-        console.log(pics);
         var n = 0;
         pics.forEach(function(d, i) {
             document.getElementById('grid').append("<div class='gallery-item' onclick='openLightbox(" + i + ")'><img src='" + d.fn + "'></div>");
-        </div>);
         });
       
         function openLightbox(src) {
