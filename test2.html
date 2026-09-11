@@ -25,24 +25,11 @@
 
     <h1>June 2026 Self-Fly Safari</h1>
 
-    <div class="gallery-grid">
-        <!-- Repeat this block for each image. Keep paths relative to this file -->
-        <div class="gallery-item" onclick="openLightbox(0)">
-            <img src="pics/IMG_5690_reduced.JPG" alt="Photo 1">
-        </div>
-        <div class="gallery-item" onclick="openLightbox(1)">
-            <img src="pics/IMG_5694_reduced.JPG" alt="Photo 2">
-        </div>
-        <div class="gallery-item" onclick="openLightbox(2)">
-            <img src="pics/IMG_5695_reduced.JPG" alt="Photo 3">
-        </div>
-    </div>
-
     <div class="gallery-grid" id="grid"></div>
 
     <!-- Lightbox Container -->
-    <div id="lightboxModal" class="lightbox" onclick="closeLightbox()">
-        <span class="close-btn">&larr; &rarr; &times;</span>
+    <div id="lightboxModal" class="lightbox" _onclick="closeLightbox()">
+        <span class="close-btn"><span onclick="left_arrow()">&larr;</span> <span onclick="right_arrow()">&rarr;</span> <span onclick="closeLightbox()">&times;</span></span>
         <img id="lightboxImg" src="" alt="Enlarged view">
     </div>
 
@@ -69,20 +56,19 @@
         function closeLightbox() {
             document.getElementById('lightboxModal').style.display = 'none';
         }
+        function left_arrow() {
+            n = Math.max(n-1, 0);
+            openLightbox(n);
+        }
+        function right_arrow() {
+            n = Math.min(n+1, pics.length-1);
+            openLightbox(n);
+        }
         // Close via Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === "Escape") closeLightbox();
-            if (e.key === "ArrowLeft") {
-                n = Math.max(n-1, 0);
-                openLightbox(n);
-                console.log("left", n);
-            }
-            if (e.key === "ArrowRight") {
-                n = Math.min(n+1, pics.length-1);
-                openLightbox(n);
-                console.log("right", n);
-            }
-
+            if (e.key === "ArrowLeft") left_arrow();
+            if (e.key === "ArrowRight") right_arrow();
         });
     </script>
 </body>
