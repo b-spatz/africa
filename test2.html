@@ -38,6 +38,8 @@
         </div>
     </div>
 
+    <div class="gallery-grid" id="grid"></div>
+
     <!-- Lightbox Container -->
     <div id="lightboxModal" class="lightbox" onclick="closeLightbox()">
         <span class="close-btn">&larr; &rarr; &times;</span>
@@ -52,6 +54,10 @@
         ];
         console.log(pics);
         var n = 0;
+        pics.forEach(function(d, i) {
+            document.getElementById('grid').append("<div class='gallery-item' onclick='openLightbox(" + i + ")'><img src='" + d.fn + "'></div>");
+        </div>);
+        });
       
         function openLightbox(src) {
             n = src;
@@ -74,7 +80,7 @@
                 console.log("left", n);
             }
             if (e.key === "ArrowRight") {
-                n = Math.min(n+1, 2);
+                n = Math.min(n+1, pics.length-1);
                 openLightbox(n);
                 console.log("right", n);
             }
