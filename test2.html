@@ -51,6 +51,7 @@
          { "fn": "pics/IMG_5695_reduced.JPG" },
         ];
         console.log(pics);
+        var n = 0;
       
         function openLightbox(src) {
             document.getElementById('lightboxImg').src = pics[src].fn;
@@ -64,7 +65,20 @@
             document.getElementById('lightboxModal').style.display = 'none';
         }
         // Close via Escape key
-        document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeLightbox(); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") closeLightbox();
+            if (e.key === "ArrowLeft") {
+                n = Math.max(n-1, 0);
+                openLightbox(n);
+                console.log("left", n);
+            }
+            if (e.key === "ArrowRight") {
+                n = Math.min(n+1, 2);
+                openLightbox(n);
+                console.log("right", n);
+            }
+
+        });
     </script>
 </body>
 </html>
