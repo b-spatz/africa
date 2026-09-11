@@ -41,6 +41,7 @@
     <!-- Lightbox Container -->
     <div id="lightboxModal" class="lightbox" onclick="closeLightbox()">
         <span class="close-btn">&times;</span>
+        <span>left/right arrows</span>
         <img id="lightboxImg" src="" alt="Enlarged view">
     </div>
 
@@ -54,6 +55,7 @@
         var n = 0;
       
         function openLightbox(src) {
+            n = src;
             document.getElementById('lightboxImg').src = pics[src].fn;
             document.getElementById('lightboxModal').style.display = 'flex';
         }
