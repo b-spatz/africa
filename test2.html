@@ -28,8 +28,8 @@
     <div class="gallery-grid" id="grid"></div>
 
     <!-- Lightbox Container -->
-    <div id="lightboxModal" class="lightbox" _onclick="closeLightbox()">
-        <span class="close-btn"><span onclick="left_arrow()">&larr;</span> <span onclick="right_arrow()">&rarr;</span> <span onclick="closeLightbox()">&times;</span></span>
+    <div id="lightboxModal" class="lightbox">
+        <span class="close-btn"><span id="num"></span> <span onclick="left_arrow()">&larr;</span> <span onclick="right_arrow()">&rarr;</span> <span onclick="closeLightbox()">&times;</span></span>
         <img id="lightboxImg" src="" alt="Enlarged view">
     </div>
 
@@ -48,10 +48,7 @@
             n = src;
             document.getElementById('lightboxImg').src = pics[src].fn;
             document.getElementById('lightboxModal').style.display = 'flex';
-        }
-        function openLightbox_old(src) {
-            document.getElementById('lightboxImg').src = src;
-            document.getElementById('lightboxModal').style.display = 'flex';
+            document.getElementById('num').innerHTML = (n + 1) + "/" + pics.length;
         }
         function closeLightbox() {
             document.getElementById('lightboxModal').style.display = 'none';
