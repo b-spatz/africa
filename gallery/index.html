@@ -322,16 +322,16 @@
 { "fn": "pics/IMG_6814_reduced.JPG" },
 { "fn": "pics/IMG_6815_reduced.JPG" }
         ];
-        var n = 0;
+        var n = 0, prefix = '../';
         pics.forEach(function(d, i) {
-            document.getElementById('grid').innerHTML += "<div class='gallery-item' onclick='openLightbox(" + i + ")'><img src='" + d.fn + "'></div>";
+            document.getElementById('grid').innerHTML += "<div class='gallery-item' onclick='openLightbox(" + i + ")'><img src='" + prefix + d.fn + "'></div>";
         });
       
         function openLightbox(src) {
             n = src;
-            document.getElementById('lightboxImg').src = pics[src].fn;
+            document.getElementById('lightboxImg').src = prefix + pics[src].fn;
             document.getElementById('lightboxModal').style.display = 'flex';
-            document.getElementById('num').innerHTML = (n + 1) + "../" + pics.length;
+            document.getElementById('num').innerHTML = (n + 1) + "/" + pics.length;
         }
         function closeLightbox() {
             document.getElementById('lightboxModal').style.display = 'none';
