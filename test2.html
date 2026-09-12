@@ -350,6 +350,51 @@
             if (e.key === "ArrowLeft") left_arrow();
             if (e.key === "ArrowRight") right_arrow();
         });
+
+// swipe gesture support
+        // Define the element you want to listen to (e.g., window or a specific container)
+const swipeZone = document;
+
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
+
+// Minimum distance in pixels to qualify as a deliberate swipe
+const minSwipeDistance = 50;
+
+swipeZone.addEventListener('touchstart', (event) => {
+    // Record the starting coordinates
+    touchStartX = event.changedTouches[0].screenX;
+    touchStartY = event.changedTouches[0].screenY;
+}, { passive: true });
+
+swipeZone.addEventListener('touchend', (event) => {
+    // Record the ending coordinates
+    touchEndX = event.changedTouches[0].screenX;
+    touchEndY = event.changedTouches[0].screenY;
+   
+    handleSwipeGesture();
+}, { passive: true });
+
+function handleSwipeGesture() {
+    const distanceX = touchEndX - touchStartX;
+    const distanceY = touchEndY - touchStartY;
+
+    // 1. Ensure the movement was horizontal, not vertical
+    // 2. Ensure the horizontal distance exceeds our minimum threshold
+    if (Math.abs(distanceX) > Math.abs(distanceY) && Math.abs(distanceX) > minSwipeDistance) {
+        if (distanceX > 0) {
+            console.log('Swiped Right!');
+            // Execute your swipe-right action here
+            right_arrow();
+        } else {
+            console.log('Swiped Left!');
+            left_arrow();
+        }
+    }
+}
+        
     </script>
 </body>
 </html>
